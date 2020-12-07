@@ -1,7 +1,7 @@
 {
-    "/odata/*": {
+    "/publicServices/*": {
         "target": "http://localhost:4004/publicServices/",
-        "pathRewrite": {"^/odata": ""},
+        "pathRewrite": {"^/publicServices": ""},
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
