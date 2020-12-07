@@ -1,0 +1,178 @@
+## Generated mta.yaml based on template version 0.4.0
+## appName = testapp
+## language=nodejs; multiTenant=false
+## approuter=
+_schema-version: '3.1'
+ID: testapp
+version: 1.0.0
+description: "Test Apps"
+parameters:
+  enable-parallel-deployments: true
+   
+build-parameters:
+  before-all:
+   - builder: custom
+     commands:
+      - npm install --production
+      - npx -p @sap/cds-dk cds build --production
+
+modules:
+ - name: testapp-app-router
+   type: approuter.nodejs
+   path: approuter
+   parameters:
+     disk-quota: 512M
+     memory: 512M
+   requires:
+     - name: testapp_uaa
+     - name: testapp_html5_repo_runtime
+     - name: testapp_portal
+     - name: srv-api
+       group: destinations
+       properties:
+         name: srv-api
+         url: "~{srv-url}"
+         forwardAuthToken: true  
+   
+                     
+ - name: testapp_ui_deployer
+   type: com.sap.application.content
+   path: deployer
+   requires:
+     - name: testapp_html5_repo_host
+       parameters:
+         content-target: true
+   build-parameters:
+     build-result: resources
+     requires:
+       - name: center
+         artifacts:
+           - dist/centermodule.zip
+         target-path: resources/
+       - name: account
+         artifacts:
+           - dist/accountmodule.zip
+         target-path: resources/       
+       - name: angular
+         artifacts:
+           - dist/angular/*
+         target-path: resources/angular
+
+ - name: account
+   type: html5
+   path: app/private/accounts
+   build-parameters:
+     builder: custom
+     commands:
+       - npm install
+       - npm run build
+     supported-platforms: []
+
+ - name: center
+   type: html5
+   path: app/private/centers
+   build-parameters:
+     builder: custom
+     commands:
+       - npm install
+       - npm run build
+     supported-platforms: []
+
+ - name: angular
+   type: html5
+   path: app/public/angular
+   build-parameters:
+     builder: custom
+     commands:
+       - npm install
+       - npm run build
+     supported-platforms: []    
+
+ - name: testapp_launchpad_deployer
+   type: com.sap.portal.content
+   path: launchpad
+   deployed-after:
+     - testapp_ui_deployer
+   requires:
+     - name: testapp_portal
+     - name: testapp_html5_repo_host
+     - name: testapp_uaa        
+ #                            CAP
+ # --------------------- SERVER MODULE ------------------------
+ - name: testapp-srv
+ # ------------------------------------------------------------
+   type: nodejs
+   path: gen/srv
+   requires:
+    # Resources extracted from CAP configuration
+    - name: testapp-db
+   provides:
+    - name: srv-api      # required by consumers of CAP services (e.g. approuter)
+      properties:
+        srv-url: ${default-url}
+   properties:
+      CORS:
+        - uriPattern: .
+          allowedMethods:
+            - GET
+            - POST
+          allowedOrigin:
+            - host: '*'
+
+ # -------------------- SIDECAR MODULE ------------------------
+ - name: testapp-db-deployer
+ # ------------------------------------------------------------
+   type: hdb
+   path: gen/db  
+   parameters:
+     buildpack: nodejs_buildpack
+   requires:
+    # 'hana' and 'xsuaa' resources extracted from CAP configuration
+    - name: testapp-db
+
+
+resources:
+ # services extracted from CAP configuration
+ # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
+ # ------------------------------------------------------------
+ - name: testapp-db
+ # ------------------------------------------------------------
+   type: com.sap.xs.hdi-container
+   parameters:
+     service: hanatrial  # or 'hanatrial' on trial landscapes
+     service-plan: hdi-shared
+   properties:
+     hdi-service-name: ${service-name}
+
+ # ------------------------------------------------------------
+ - name: testapp_uaa
+ # ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   parameters:
+     path: ./xs-security.json
+     service-plan: application
+     service: xsuaa
+ # ------------------------------------------------------------     
+ - name: testapp_html5_repo_runtime
+ # ------------------------------------------------------------ 
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service-plan: app-runtime
+     service: html5-apps-repo
+ # ------------------------------------------------------------     
+ - name: testapp_html5_repo_host
+ # ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service-plan: app-host
+     service: html5-apps-repo
+     config:
+       sizeLimit: 32
+ # ------------------------------------------------------------       
+ - name: testapp_portal
+ # ------------------------------------------------------------ 
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service-plan: standard
+     service: portal     
+

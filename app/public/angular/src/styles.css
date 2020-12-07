@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0;
+ 
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; 
+  background-color: #575757;
+}
+ 
+
+.content{position:absolute; top:150px; bottom:50px; left:0px; right:0px; overflow:hidden; margin: 20px; }
+.footer{position:absolute; bottom:0px; height:50px; left:0px; right:0px; overflow:hidden; background-color: #ee9b00 }
+.copyright{color: white; text-align: right; line-height: 50px; margin-right: 50px; font-weight: bold;}
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

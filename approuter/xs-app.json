@@ -1,0 +1,27 @@
+{
+    "welcomeFile": "/cp.portal",
+    "authenticationMethod": "route",
+    "logout": {
+      "logoutEndpoint": "/do/logout"
+    },
+    "routes": [
+        {
+          "source": "^/angular/(.*)$",
+          "authenticationType": "none",
+          "destination": "angular",
+          "csrfProtection": false
+        },
+        {
+          "source": "^/privateServices/(.*)$",
+          "authenticationType": "xsuaa",
+          "destination": "srv-api",
+          "csrfProtection": true
+        },
+        {
+          "source": "^/v2/publicServices/(.*)$",
+          "authenticationType": "xsuaa",
+          "destination": "srv-api",
+          "csrfProtection": false
+        }        
+     ]
+  }

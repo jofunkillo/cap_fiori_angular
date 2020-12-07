@@ -1,0 +1,17 @@
+
+.form{ margin: 0px auto; min-width: 450px;  max-width: 1000px;}
+  
+.normal-form {
+  min-width: 350px;
+  max-width: 800px;
+  width: 100%;
+  margin: 0px auto;    
+}
+  
+.cardContent{
+  min-height: 550px; max-height: 550px; overflow-y:auto; }
+
+.header-image {
+  background-image: url('../favicon.ico');
+  background-size: cover;
+}
