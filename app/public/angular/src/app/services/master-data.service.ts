@@ -13,10 +13,10 @@ export class MasterDataService {
   
   constructor(private http:HttpClient) {
     if (isDevMode()) {
-      this.baseUrl = 'http://localhost:4200/odata/';
+      this.baseUrl = '/publicServices/';
     }
     else {
-      this.baseUrl = 'http://localhost:4004/publicServices/';
+      this.baseUrl = '/publicServices/';
     }
     //}
     //else {
