@@ -18,10 +18,6 @@ export class MasterDataService {
     else {
       this.baseUrl = '/publicServices/';
     }
-    //}
-    //else {
-    //  this.baseUrl = 'https://e7098fe6trial-dev-cockpit-srv.cfapps.eu10.hana.ondemand.com/extservices/';
-    // }
    }
 
 
