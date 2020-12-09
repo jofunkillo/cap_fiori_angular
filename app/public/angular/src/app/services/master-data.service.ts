@@ -13,6 +13,7 @@ export class MasterDataService {
   
   constructor(private http:HttpClient) {    
       this.baseUrl = '/publicServices/';
+
   }
 
   getAccounts():Observable<OData> {
