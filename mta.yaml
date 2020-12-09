@@ -55,8 +55,8 @@ modules:
          target-path: resources/       
        - name: angular
          artifacts:
-           - dist/angular/*
-         target-path: resources/angular
+           - dist/*
+         target-path: resources/
 
  - name: account
    type: html5
@@ -86,7 +86,7 @@ modules:
      commands:
        - npm install
        - npm run build
-     supported-platforms: []    
+     supported-platforms: []  
 
  - name: testapp_launchpad_deployer
    type: com.sap.portal.content

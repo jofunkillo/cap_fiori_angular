@@ -1,0 +1,8 @@
+{
+  "sap.app": {
+    "id": "angular",
+    "applicationVersion": {
+      "version": "1.0.0"
+    }
+  }
+}

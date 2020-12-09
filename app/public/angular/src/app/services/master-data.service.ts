@@ -11,19 +11,9 @@ import {from} from 'rxjs';
 export class MasterDataService {
   baseUrl: string;
   
-  constructor(private http:HttpClient) {
-    if (isDevMode()) {
+  constructor(private http:HttpClient) {    
       this.baseUrl = '/publicServices/';
-    }
-    else {
-      this.baseUrl = '/publicServices/';
-    }
-    //}
-    //else {
-    //  this.baseUrl = 'https://e7098fe6trial-dev-cockpit-srv.cfapps.eu10.hana.ondemand.com/extservices/';
-    // }
-   }
-
+  }
 
   getAccounts():Observable<OData> {
     var response = this.http.get<OData>(this.baseUrl+"Account?$format=json");

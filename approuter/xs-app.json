@@ -4,24 +4,24 @@
     "logout": {
       "logoutEndpoint": "/do/logout"
     },
-    "routes": [
+    "routes": [        
         {
-          "source": "^/angular/(.*)$",
-          "authenticationType": "none",
-          "destination": "angular",
-          "csrfProtection": false
-        },
-        {
-          "source": "^/privateServices/(.*)$",
+          "source": "^/v2/privateServices/(.*)$",
           "authenticationType": "xsuaa",
           "destination": "srv-api",
           "csrfProtection": true
         },
         {
-          "source": "^/v2/publicServices/(.*)$",
-          "authenticationType": "xsuaa",
+          "source": "^/publicServices/(.*)$",
+          "authenticationType": "none",
           "destination": "srv-api",
           "csrfProtection": false
-        }        
+        },
+        {
+          "source": "^supplierRegistration(.*)",
+          "target": "supplierRegistration/$1",
+          "authenticationType": "none",
+          "service": "html5-apps-repo-rt"
+        }    
      ]
   }
